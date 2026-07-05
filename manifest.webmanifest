@@ -1,0 +1,17 @@
+{
+  "name": "По-русски – Russisch lernen",
+  "short_name": "По-русски",
+  "description": "Private Russisch-Lern-App: Lektionen, Dialoge und Spaced-Repetition-Vokabeltrainer.",
+  "lang": "de",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f2f4f9",
+  "theme_color": "#1f4fd8",
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
