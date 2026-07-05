@@ -7,10 +7,10 @@ keine Datenweitergabe – dein Fortschritt bleibt auf deinem Gerät.
 
 ## Was die App kann
 
-- **36 Lektionen im Babbel-Stil** (12 Einheiten, Niveau A1 → B1): neue Wörter mit
+- **60 Lektionen im Babbel-Stil** (20 Einheiten, Niveau A1 → B1): neue Wörter mit
   Aussprache-Audio und Lautschrift, gemischte Übungen und zum Abschluss ein
   Alltagsdialog mit Lückentexten.
-- **~430 Wörter & Sätze** mit deutscher Übersetzung und betonter Lautschrift –
+- **720 Wörter & Sätze** mit deutscher Übersetzung und betonter Lautschrift –
   siehe **Fahrplan zu 5000 Wörtern** unten für den weiteren Ausbau.
 - **Kursübersicht nach Niveau gruppiert** (A1/A2/B1/…) mit Suchfeld, um gezielt
   eine Lektion oder ein Wort zu finden.
@@ -86,8 +86,8 @@ damit jede Lektion die gleiche Qualität hat wie die ersten:
 
 | Stand | Wörter | Lektionen | Niveau |
 |---|---|---|---|
-| Aktuell | ~430 | 36 | A1 → B1 (Anfang) |
-| Nächste Welle | ~800–1000 | ~70–85 | B1 |
+| Aktuell | 720 | 60 | A1 → B1 |
+| Nächste Welle | ~1000 | ~85 | B1 |
 | Ziel Zwischenstopp | ~2500 | ~210 | B1 → B2 |
 | Endziel | 5000+ | ~400+ | B2 → C1 |
 
@@ -98,7 +98,8 @@ sortierte Wörter, echte Dialoge, passende Grammatik-Tipps, keine Wort-Dubletten
 ## Inhalte erweitern
 
 Der komplette Kurs liegt in `js/data-a.js` (Einheiten 1–4, A1), `js/data-b.js`
-(Einheiten 5–8, A1/A2) und `js/data-c.js` (Einheiten 9–12, A2/B1) – reine
+(Einheiten 5–8, A1/A2), `js/data-c.js` (Einheiten 9–12, A2/B1), `js/data-d.js`
+(Einheiten 13–16, B1) und `js/data-e.js` (Einheiten 17–20, B1) – reine
 Datenstrukturen, gut kommentiert. Neue Wörter, Lektionen oder Einheiten einfach
 nach demselben Muster ergänzen (neue Datei `data-d.js` usw. anlegen und in
 `index.html` sowie `sw.js` eintragen); Übungen und Wiederholungen entstehen daraus
