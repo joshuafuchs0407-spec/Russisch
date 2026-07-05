@@ -7,12 +7,12 @@ keine Datenweitergabe – dein Fortschritt bleibt auf deinem Gerät.
 
 ## Was die App kann
 
-- **60 Lektionen im Babbel-Stil** (20 Einheiten, Niveau A1 → B1): neue Wörter mit
+- **84 Lektionen im Babbel-Stil** (28 Einheiten, Niveau A1 → B2): neue Wörter mit
   Aussprache-Audio und Lautschrift, gemischte Übungen und zum Abschluss ein
   Alltagsdialog mit Lückentexten.
-- **720 Wörter & Sätze** mit deutscher Übersetzung und betonter Lautschrift –
-  siehe **Fahrplan zu 5000 Wörtern** unten für den weiteren Ausbau.
-- **Kursübersicht nach Niveau gruppiert** (A1/A2/B1/…) mit Suchfeld, um gezielt
+- **1008 Wörter & Sätze** mit deutscher Übersetzung und betonter Lautschrift, jedes
+  Wort kommt genau einmal vor – siehe **Fahrplan zu 5000 Wörtern** unten.
+- **Kursübersicht nach Niveau gruppiert** (A1/A2/B1/B2) mit Suchfeld, um gezielt
   eine Lektion oder ein Wort zu finden.
 - **Wiederholungs-Manager mit Spaced Repetition** (wie Babbels Review-Manager):
   6 Stufen mit Intervallen von 1 → 4 → 7 → 14 → 60 → 180 Tagen. Richtig beantwortete
@@ -21,7 +21,8 @@ keine Datenweitergabe – dein Fortschritt bleibt auf deinem Gerät.
   Satzbau-Kacheln), Zuordnen und Karteikarten mit Selbsteinschätzung.
 - **Audio für alles** über die russische Systemstimme deines Geräts (Text-to-Speech),
   auf Wunsch in Zeitlupe 🐢.
-- **Grammatik in Häppchen**: 30+ kurze Tipps genau dort, wo sie gebraucht werden.
+- **Grammatik in Häppchen**: 80+ kurze Tipps genau dort, wo sie gebraucht werden –
+  von den ersten Sätzen bis zu Verbaspekt, Fällen, Futur, Komparativ und Konjunktiv (бы).
 - **Motivation**: Tagesziel, XP, Streak-Zähler, Statistik und Karteikasten-Übersicht.
 - **Fortschritt exportieren/importieren**, um Geräte zu wechseln oder Backups zu machen.
 
@@ -86,9 +87,9 @@ damit jede Lektion die gleiche Qualität hat wie die ersten:
 
 | Stand | Wörter | Lektionen | Niveau |
 |---|---|---|---|
-| Aktuell | 720 | 60 | A1 → B1 |
-| Nächste Welle | ~1000 | ~85 | B1 |
-| Ziel Zwischenstopp | ~2500 | ~210 | B1 → B2 |
+| Aktuell | 1008 | 84 | A1 → B2 |
+| Nächste Welle | ~1300 | ~110 | B2 |
+| Ziel Zwischenstopp | ~2500 | ~210 | B2 |
 | Endziel | 5000+ | ~400+ | B2 → C1 |
 
 Sag einfach **„weiter“ / „nächste Einheiten“**, wenn du mehr Lektionen willst –
@@ -99,8 +100,10 @@ sortierte Wörter, echte Dialoge, passende Grammatik-Tipps, keine Wort-Dubletten
 
 Der komplette Kurs liegt in `js/data-a.js` (Einheiten 1–4, A1), `js/data-b.js`
 (Einheiten 5–8, A1/A2), `js/data-c.js` (Einheiten 9–12, A2/B1), `js/data-d.js`
-(Einheiten 13–16, B1) und `js/data-e.js` (Einheiten 17–20, B1) – reine
-Datenstrukturen, gut kommentiert. Neue Wörter, Lektionen oder Einheiten einfach
+(Einheiten 13–16, B1), `js/data-e.js` (Einheiten 17–20, B1), `js/data-f.js`
+(Einheiten 21–24, B1/B2) und `js/data-g.js` (Einheiten 25–28, B2) – reine
+Datenstrukturen, gut kommentiert. Ein `validate.js`-Prüfskript stellt sicher,
+dass jedes Wort im Kurs nur einmal vorkommt und alle Dialoge stimmig sind. Neue Wörter, Lektionen oder Einheiten einfach
 nach demselben Muster ergänzen (neue Datei `data-d.js` usw. anlegen und in
 `index.html` sowie `sw.js` eintragen); Übungen und Wiederholungen entstehen daraus
 automatisch. Ein Wort darf im ganzen Kurs nur einmal vorkommen – vor dem Ergänzen
