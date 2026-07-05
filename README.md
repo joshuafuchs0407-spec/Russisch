@@ -7,10 +7,13 @@ keine Datenweitergabe – dein Fortschritt bleibt auf deinem Gerät.
 
 ## Was die App kann
 
-- **24 Lektionen im Babbel-Stil** (8 Einheiten, Niveau A1 → A2): neue Wörter mit
+- **36 Lektionen im Babbel-Stil** (12 Einheiten, Niveau A1 → B1): neue Wörter mit
   Aussprache-Audio und Lautschrift, gemischte Übungen und zum Abschluss ein
   Alltagsdialog mit Lückentexten.
-- **~290 Wörter & Sätze** mit deutscher Übersetzung und betonter Lautschrift.
+- **~430 Wörter & Sätze** mit deutscher Übersetzung und betonter Lautschrift –
+  siehe **Fahrplan zu 5000 Wörtern** unten für den weiteren Ausbau.
+- **Kursübersicht nach Niveau gruppiert** (A1/A2/B1/…) mit Suchfeld, um gezielt
+  eine Lektion oder ein Wort zu finden.
 - **Wiederholungs-Manager mit Spaced Repetition** (wie Babbels Review-Manager):
   6 Stufen mit Intervallen von 1 → 4 → 7 → 14 → 60 → 180 Tagen. Richtig beantwortete
   Wörter steigen auf, Fehler werfen sie zurück.
@@ -73,13 +76,36 @@ Die Sprachausgabe nutzt die Systemstimmen deines Geräts:
 ⚙️ Einstellungen → **Exportieren** (lädt eine JSON-Datei herunter) → Datei aufs andere
 Gerät schicken (AirDrop, Mail, …) → dort ⚙️ Einstellungen → **Importieren**.
 
+## Fahrplan zu 5000 Wörtern
+
+Das Ziel ist echte Flüssigkeit, nicht nur ein Grundwortschatz – dafür sind grob
+**5000+ Wörter als vollwertige Lektionen mit Dialog und Grammatik-Tipp** nötig
+(bei ~12 Wörtern/Lektion sind das rund 400+ Lektionen). Das ist vom Umfang her
+vergleichbar mit einem kompletten Lehrbuch und wird bewusst **in Wellen** gebaut,
+damit jede Lektion die gleiche Qualität hat wie die ersten:
+
+| Stand | Wörter | Lektionen | Niveau |
+|---|---|---|---|
+| Aktuell | ~430 | 36 | A1 → B1 (Anfang) |
+| Nächste Welle | ~800–1000 | ~70–85 | B1 |
+| Ziel Zwischenstopp | ~2500 | ~210 | B1 → B2 |
+| Endziel | 5000+ | ~400+ | B2 → C1 |
+
+Sag einfach **„weiter“ / „nächste Einheiten“**, wenn du mehr Lektionen willst –
+dann kommt die nächste Charge in derselben Qualität (neue, nach Häufigkeit
+sortierte Wörter, echte Dialoge, passende Grammatik-Tipps, keine Wort-Dubletten).
+
 ## Inhalte erweitern
 
-Der komplette Kurs liegt in `js/data-a.js` (Einheiten 1–4) und `js/data-b.js`
-(Einheiten 5–8) – reine Datenstrukturen, gut kommentiert. Neue Wörter, Lektionen oder
-Einheiten einfach nach demselben Muster ergänzen; Übungen und Wiederholungen entstehen
-daraus automatisch. Nach Änderungen die `VERSION` in `sw.js` hochzählen, damit
-installierte Geräte das Update bekommen.
+Der komplette Kurs liegt in `js/data-a.js` (Einheiten 1–4, A1), `js/data-b.js`
+(Einheiten 5–8, A1/A2) und `js/data-c.js` (Einheiten 9–12, A2/B1) – reine
+Datenstrukturen, gut kommentiert. Neue Wörter, Lektionen oder Einheiten einfach
+nach demselben Muster ergänzen (neue Datei `data-d.js` usw. anlegen und in
+`index.html` sowie `sw.js` eintragen); Übungen und Wiederholungen entstehen daraus
+automatisch. Ein Wort darf im ganzen Kurs nur einmal vorkommen – vor dem Ergänzen
+lohnt sich ein Blick in die bestehenden Dateien, um Dubletten zu vermeiden.
+Nach Änderungen die `VERSION` in `sw.js` hochzählen, damit installierte Geräte
+das Update bekommen.
 
 ## Technik
 

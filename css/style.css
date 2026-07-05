@@ -111,6 +111,16 @@ body.session-open #nav, body.session-open #topbar { display: none; }
 .mini span { color: var(--subtle); font-size: .72rem; }
 
 /* Kursliste */
+.course-summary { text-align: center; font-size: .95rem; }
+.search-wrap { margin: 4px 0 14px; }
+.search-input {
+  width: 100%; padding: 12px 14px; border-radius: 14px; border: 1px solid var(--line);
+  background: var(--card); color: var(--text); font-size: 1rem; font-family: inherit;
+}
+.level-section { margin-top: 22px; }
+.level-section:first-of-type { margin-top: 4px; }
+.level-head { display: flex; justify-content: space-between; align-items: baseline; padding: 0 2px 4px; }
+.level-head h3 { font-size: 1rem; letter-spacing: .02em; }
 .unit-head { display: flex; justify-content: space-between; gap: 10px; margin-bottom: 8px; }
 .unit-no { color: var(--accent); font-size: .75rem; font-weight: 800; text-transform: uppercase; letter-spacing: .05em; }
 .unit-progress { color: var(--subtle); font-weight: 700; white-space: nowrap; }

@@ -3,6 +3,7 @@ window.COURSE_UNITS = window.COURSE_UNITS || [];
 window.COURSE_UNITS.push(
 {
   id: "u5",
+  level: "A1",
   title: "In der Stadt",
   desc: "Orte, nach dem Weg fragen, unterwegs sein",
   lessons: [
@@ -110,6 +111,7 @@ window.COURSE_UNITS.push(
 },
 {
   id: "u6",
+  level: "A1",
   title: "Einkaufen",
   desc: "Preise, Kleidung, Farben, an der Kasse",
   lessons: [
@@ -217,6 +219,7 @@ window.COURSE_UNITS.push(
 },
 {
   id: "u7",
+  level: "A2",
   title: "Freizeit und Alltag",
   desc: "Hobbys, Verben im Alltag, Pläne machen",
   lessons: [
@@ -269,7 +272,7 @@ window.COURSE_UNITS.push(
         { ru: "редко", tr: "rjétka", de: "selten" },
         { ru: "каждый день", tr: "káschdyj djen", de: "jeden Tag" },
         { ru: "обычно", tr: "abýtschna", de: "normalerweise" },
-        { ru: "дома", tr: "dóma", de: "zu Hause" }
+        { ru: "долго", tr: "dólga", de: "lange (zeitlich)" }
       ],
       tips: [
         { title: "Das Konjugations-Muster", body: "Fast alle Verben auf **-ать** gehen so (делать):\nя дела**ю**, ты дела**ешь**, он дела**ет**,\nмы дела**ем**, вы дела**ете**, они дела**ют**\nGenauso: работать, отдыхать, изучать, читать, играть, слушать …" }
@@ -324,6 +327,7 @@ window.COURSE_UNITS.push(
 },
 {
   id: "u8",
+  level: "A2",
   title: "Reisen",
   desc: "Am Flughafen, im Hotel, um Hilfe bitten",
   lessons: [

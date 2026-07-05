@@ -114,28 +114,88 @@ window.App = {
   },
 
   /* ---------- Kursübersicht ---------- */
-  course(view) {
+  LEVELS: [
+    ["A1", "Grundlagen"], ["A2", "Aufbauwortschatz"], ["B1", "Mittelstufe"],
+    ["B2", "Gehobene Mittelstufe"], ["C1", "Fortgeschritten"]
+  ],
+
+  course(view, q) {
     view.innerHTML = "";
     view.append(U.el("h2", "page-title", "Dein Kurs"));
-    C.units().forEach((u, ui) => {
-      const doneCnt = u.lessons.filter(l => Store.isDone(l.id)).length;
-      const card = U.el("div", "card unit");
-      card.append(U.el("div", "unit-head",
-        '<div><div class="unit-no">Einheit ' + (ui + 1) + "</div><h3>" + U.esc(u.title) + "</h3>" +
-        '<div class="subtle">' + U.esc(u.desc) + "</div></div>" +
-        '<div class="unit-progress">' + doneCnt + "/" + u.lessons.length + "</div>"));
-      u.lessons.forEach(l => {
-        const row = U.el("div", "lesson-row" + (Store.isDone(l.id) ? " done" : ""));
-        row.innerHTML = '<div class="lesson-check">' + (Store.isDone(l.id) ? "✓" : "") + "</div>" +
-          '<div class="lesson-info"><b>' + U.esc(l.title) + "</b><span>" + U.esc(l.desc || "") + " · " + l.items.length + " Wörter</span></div>";
-        const b = U.el("button", "btn small-btn", Store.isDone(l.id) ? "Nochmal" : "Start");
-        b.type = "button";
-        b.onclick = () => { location.hash = "#lesson/" + l.id; };
-        row.append(b);
-        card.append(row);
-      });
-      view.append(card);
+
+    const total = C.lessons().length;
+    const doneAll = C.lessons().filter(l => Store.isDone(l.id)).length;
+    const summary = U.el("div", "card course-summary");
+    summary.innerHTML = "<b>" + C.allItems().length + "</b> Wörter im Kurs · <b>" + doneAll + "/" + total + "</b> Lektionen geschafft";
+    view.append(summary);
+
+    const searchWrap = U.el("div", "search-wrap");
+    const input = U.el("input", "search-input");
+    input.type = "search";
+    input.placeholder = "Lektion oder Wort suchen …";
+    input.value = q || "";
+    input.oninput = () => App.course(view, input.value);
+    searchWrap.append(input);
+    view.append(searchWrap);
+
+    const needle = U.norm(q || "");
+    const unitsByLevel = {};
+    const unitNo = {};
+    C.units().forEach((u, i) => {
+      unitNo[u.id] = i + 1;
+      const lvl = u.level || "A1";
+      (unitsByLevel[lvl] = unitsByLevel[lvl] || []).push(u);
     });
+
+    let shown = 0;
+    App.LEVELS.forEach(([lvl, lvlLabel]) => {
+      const unitsHere = unitsByLevel[lvl] || [];
+      if (!unitsHere.length) return;
+
+      const matchedUnits = !needle ? unitsHere : unitsHere
+        .map(u => ({
+          ...u,
+          lessons: u.lessons.filter(l =>
+            U.norm(l.title).includes(needle) ||
+            U.norm(l.desc || "").includes(needle) ||
+            l.items.some(it => U.norm(it.ru).includes(needle) || U.norm(it.de).includes(needle))
+          )
+        }))
+        .filter(u => u.lessons.length);
+      if (needle && !matchedUnits.length) return;
+
+      const doneCnt = unitsHere.reduce((n, u) => n + u.lessons.filter(l => Store.isDone(l.id)).length, 0);
+      const totalCnt = unitsHere.reduce((n, u) => n + u.lessons.length, 0);
+      const section = U.el("div", "level-section");
+      section.append(U.el("div", "level-head",
+        "<h3>" + lvl + " · " + U.esc(lvlLabel) + "</h3><span class='subtle'>" + doneCnt + "/" + totalCnt + "</span>"));
+      view.append(section);
+
+      matchedUnits.forEach((u, ui) => {
+        const doneCntU = u.lessons.filter(l => Store.isDone(l.id)).length;
+        const card = U.el("div", "card unit");
+        card.append(U.el("div", "unit-head",
+          '<div><div class="unit-no">Einheit ' + unitNo[u.id] + "</div><h3>" + U.esc(u.title) + "</h3>" +
+          '<div class="subtle">' + U.esc(u.desc) + "</div></div>" +
+          '<div class="unit-progress">' + doneCntU + "/" + u.lessons.length + "</div>"));
+        u.lessons.forEach(l => {
+          shown++;
+          const row = U.el("div", "lesson-row" + (Store.isDone(l.id) ? " done" : ""));
+          row.innerHTML = '<div class="lesson-check">' + (Store.isDone(l.id) ? "✓" : "") + "</div>" +
+            '<div class="lesson-info"><b>' + U.esc(l.title) + "</b><span>" + U.esc(l.desc || "") + " · " + l.items.length + " Wörter</span></div>";
+          const b = U.el("button", "btn small-btn", Store.isDone(l.id) ? "Nochmal" : "Start");
+          b.type = "button";
+          b.onclick = () => { location.hash = "#lesson/" + l.id; };
+          row.append(b);
+          card.append(row);
+        });
+        view.append(card);
+      });
+    });
+
+    if (needle && shown === 0) {
+      view.append(U.el("div", "card subtle center", "Keine Treffer für „" + U.esc(q) + "“."));
+    }
   },
 
   /* ---------- Üben / Review-Center ---------- */

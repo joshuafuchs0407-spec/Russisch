@@ -9,6 +9,7 @@ window.COURSE_UNITS = window.COURSE_UNITS || [];
 window.COURSE_UNITS.push(
 {
   id: "u1",
+  level: "A1",
   title: "Erste Schritte",
   desc: "Begrüßen, sich vorstellen, sagen woher man kommt",
   lessons: [
@@ -120,6 +121,7 @@ window.COURSE_UNITS.push(
 },
 {
   id: "u2",
+  level: "A1",
   title: "Menschen und Familie",
   desc: "Familie vorstellen, Pronomen, erste Adjektive",
   lessons: [
@@ -229,6 +231,7 @@ window.COURSE_UNITS.push(
 },
 {
   id: "u3",
+  level: "A1",
   title: "Zahlen und Zeit",
   desc: "Zählen, Alter angeben, Uhrzeit und Wochentage",
   lessons: [
@@ -338,6 +341,7 @@ window.COURSE_UNITS.push(
 },
 {
   id: "u4",
+  level: "A1",
   title: "Essen und Trinken",
   desc: "Lebensmittel, im Café bestellen, sagen was man mag",
   lessons: [
