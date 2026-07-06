@@ -111,6 +111,23 @@ window.App = {
       '<div class="mini"><b>' + doneCount + "/" + C.lessons().length + "</b><span>Lektionen</span></div>" +
       '<div class="mini"><b>' + Store.xpTotal() + "</b><span>XP gesamt</span></div>";
     view.append(mini);
+
+    /* Hinweis, wenn (nach dem Nachladen der Stimmen) keine russische Stimme da ist */
+    if (Speech.available()) {
+      const maybeWarn = () => {
+        if (Speech.hasRuVoice() || view.querySelector(".audio-warn") || !document.body.contains(mini)) return;
+        const warn = U.el("div", "card audio-warn");
+        warn.innerHTML = "<b>🔇 Keine russische Stimme gefunden</b>" +
+          "<div class='subtle'>Damit du die Aussprache hörst, installiere eine russische Systemstimme. " +
+          "Anleitung für dein Gerät findest du in den <a href='#settings'>Einstellungen ⚙️</a>.</div>";
+        view.append(warn);
+      };
+      setTimeout(maybeWarn, 2500);
+      document.addEventListener("ruvoices", () => {
+        const w = view.querySelector(".audio-warn");
+        if (w && Speech.hasRuVoice()) w.remove();
+      });
+    }
   },
 
   /* ---------- Kursübersicht ---------- */
@@ -332,14 +349,43 @@ window.App = {
       const vRow = U.el("label", "set-row");
       vRow.innerHTML = "<span>Russische Stimme</span>";
       const vSel = U.el("select");
-      const auto = U.el("option", "", "Automatisch"); auto.value = ""; vSel.append(auto);
-      Speech.voices.forEach(v => { const o = U.el("option", "", v.name); o.value = v.name; vSel.append(o); });
-      vSel.value = s.voice || "";
+      const fillVoices = () => {
+        vSel.innerHTML = "";
+        const auto = U.el("option", "", "Automatisch"); auto.value = ""; vSel.append(auto);
+        Speech.voices.forEach(v => { const o = U.el("option", "", v.name); o.value = v.name; vSel.append(o); });
+        vSel.value = s.voice || "";
+      };
+      fillVoices();
+      document.addEventListener("ruvoices", fillVoices);
       vSel.onchange = () => { s.voice = vSel.value; Store.save(); Speech.say("Привет! Как дела?"); };
       vRow.append(vSel);
       card.append(vRow);
-      if (Speech.voices.length === 0) {
-        card.append(U.el("p", "subtle", "Hinweis: Es ist noch keine russische Stimme geladen. Auf iOS/Android ggf. unter Einstellungen → Bedienungshilfen eine russische Stimme installieren."));
+
+      /* Audio-Diagnose */
+      const diag = U.el("div", "set-row");
+      const status = U.el("span");
+      const renderStatus = () => {
+        status.innerHTML = Speech.hasRuVoice()
+          ? "✅ " + Speech.voices.length + " russische Stimme(n) gefunden<br><small class='subtle'>" + U.esc((Speech.voice() || {}).name || "") + "</small>"
+          : "⚠️ <b>Keine russische Stimme gefunden</b><br><small class='subtle'>Siehe Anleitung unten</small>";
+      };
+      renderStatus();
+      document.addEventListener("ruvoices", renderStatus);
+      const testBtn = U.el("button", "btn", "🔊 Audio testen");
+      testBtn.type = "button";
+      testBtn.onclick = () => Speech.say("Привет! Раз, два, три. Я говорю по-русски.");
+      diag.append(status, testBtn);
+      card.append(diag);
+
+      if (!Speech.hasRuVoice()) {
+        card.append(U.el("div", "tip-body subtle", U.md(
+          "**So installierst du eine russische Stimme:**\n" +
+          "**iPhone/iPad:** Einstellungen → Bedienungshilfen → Gesprochene Inhalte → Stimmen → Russisch → z. B. „Milena“ laden. Danach Safari neu starten.\n" +
+          "**Android:** Einstellungen → System → Sprachen/Text-in-Sprache → Google Sprachausgabe → Sprachdaten installieren → Русский.\n" +
+          "**Windows:** Einstellungen → Zeit und Sprache → Sprache → „Sprache hinzufügen“ → Russisch (mit Sprachausgabe-Paket). Danach Browser neu starten.\n" +
+          "**macOS:** Systemeinstellungen → Bedienungshilfen → Gesprochene Inhalte → Systemstimme → Verwalten → Russisch laden.\n" +
+          "**Tipp iPhone:** Auch den Stummschalter an der Seite prüfen – bei „lautlos“ bleibt die Sprachausgabe oft stumm!"
+        )));
       }
     } else {
       card.append(U.el("p", "subtle", "⚠️ Dein Browser unterstützt keine Sprachausgabe – Hör-Übungen sind deaktiviert."));
