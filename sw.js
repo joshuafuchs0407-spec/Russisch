@@ -1,6 +1,6 @@
 /* Service Worker: macht die App offline nutzbar.
    Bei Änderungen an der App die VERSION hochzählen! */
-const VERSION = "v1.3.1";
+const VERSION = "v1.4.0";
 const CACHE = "russisch-" + VERSION;
 const ASSETS = [
   "./",
@@ -15,12 +15,14 @@ const ASSETS = [
   "./js/data-e.js",
   "./js/data-f.js",
   "./js/data-g.js",
+  "./js/data-reading.js",
   "./js/store.js",
   "./js/srs.js",
   "./js/audio.js",
   "./js/exercises.js",
   "./js/lesson.js",
   "./js/review.js",
+  "./js/reading.js",
   "./js/app.js",
   "./icons/favicon.svg",
   "./icons/icon-192.png",

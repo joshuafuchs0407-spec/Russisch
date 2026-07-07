@@ -3,6 +3,7 @@ window.App = {
 
   boot() {
     Store.load();
+    SRS.migrate();
     Speech.init();
     if ("serviceWorker" in navigator && location.protocol !== "file:") {
       navigator.serviceWorker.register("sw.js").catch(() => {});
@@ -20,6 +21,7 @@ window.App = {
     const [name, arg, arg2] = hash.split("/");
 
     if (name === "lesson" && arg) return Lesson.start(arg);
+    if (name === "reading" && arg) return Reading.start(arg);
     if (name === "review") return Review.start(arg || "mix", arg2 === "extra");
 
     const views = { home: App.home, course: App.course, ueben: App.ueben, stats: App.stats, settings: App.settings };
@@ -146,6 +148,8 @@ window.App = {
     summary.innerHTML = "<b>" + C.allItems().length + "</b> Wörter im Kurs · <b>" + doneAll + "/" + total + "</b> Lektionen geschafft";
     view.append(summary);
 
+    if (!q) App.readingSection(view);
+
     const searchWrap = U.el("div", "search-wrap");
     const input = U.el("input", "search-input");
     input.type = "search";
@@ -215,6 +219,30 @@ window.App = {
     }
   },
 
+  /* ---------- Lesetexte ---------- */
+  readingSection(view) {
+    const readings = window.READINGS || [];
+    if (!readings.length) return;
+    const card = U.el("div", "card");
+    card.append(U.el("h3", "", "📖 Lesetexte"));
+    card.append(U.el("p", "subtle", "Kurze Geschichten, die nur Wörter nutzen, die du schon gelernt hast – echtes Leseverständnis statt Einzelwörter."));
+    readings.forEach(r => {
+      const unlocked = Reading.isUnlocked(r);
+      const done = Store.isReadingDone(r.id);
+      const row = U.el("div", "lesson-row" + (done ? " done" : ""));
+      row.innerHTML = '<div class="lesson-check">' + (done ? "✓" : (unlocked ? "" : "🔒")) + "</div>" +
+        '<div class="lesson-info"><b>' + U.esc(r.title) + "</b><span>" + r.level + " · " + U.esc(r.desc) +
+        (unlocked ? "" : " · schaltet sich nach Einheit " + U.esc(r.unlockAfterUnit.replace("u", "")) + " frei") + "</span></div>";
+      const b = U.el("button", "btn small-btn", done ? "Nochmal" : "Lesen");
+      b.type = "button";
+      b.disabled = !unlocked;
+      b.onclick = () => { location.hash = "#reading/" + r.id; };
+      row.append(b);
+      card.append(row);
+    });
+    view.append(card);
+  },
+
   /* ---------- Üben / Review-Center ---------- */
   ueben(view) {
     view.innerHTML = "";
@@ -230,7 +258,7 @@ window.App = {
     }
     if (due > 0) {
       info.innerHTML = "<b>" + due + (due === 1 ? " Wort ist" : " Wörter sind") + " fällig.</b>" +
-        "<div class='subtle'>Der Wiederholungs-Manager zeigt dir jedes Wort genau dann, wenn du es zu vergessen drohst (nach 1, 4, 7, 14, 60 und 180 Tagen).</div>";
+        "<div class='subtle'>Der Wiederholungs-Manager passt sich adaptiv an dein Erinnerungsvermögen an (SM-2-Prinzip): leichte Wörter wandern schnell auf Monate, schwierige bleiben länger nah dran.</div>";
     } else {
       const nd = SRS.nextDue();
       info.innerHTML = "<b>Alles wiederholt! 🎉</b><div class='subtle'>Nächste Fälligkeit: " +
@@ -267,23 +295,23 @@ window.App = {
     grid.innerHTML =
       '<div class="mini"><b>🔥 ' + Store.streak() + "</b><span>Tage-Streak</span></div>" +
       '<div class="mini"><b>' + SRS.learnedCount() + "</b><span>Wörter gelernt</span></div>" +
-      '<div class="mini"><b>' + Store.state.reviews + "</b><span>Wiederholungen</span></div>" +
+      '<div class="mini"><b>🏆 ' + SRS.masteredCount() + "</b><span>Gemeistert</span></div>" +
       '<div class="mini"><b>' + Store.xpTotal() + "</b><span>XP gesamt</span></div>";
     view.append(grid);
 
-    /* Wörter je SRS-Stufe */
-    const counts = SRS.stageCounts();
-    const max = Math.max(1, ...counts.slice(1));
-    const labels = ["", "Stufe 1 (1 Tag)", "Stufe 2 (4 Tage)", "Stufe 3 (7 Tage)", "Stufe 4 (14 Tage)", "Stufe 5 (60 Tage)", "Stufe 6 (Langzeit)"];
+    /* Wörter je Intervall-Band (adaptives SM-2-SRS) */
+    const counts = SRS.bandCounts();
+    const max = Math.max(1, ...counts);
     const srsCard = U.el("div", "card");
     srsCard.append(U.el("h3", "", "Dein Karteikasten"));
-    for (let s = 1; s <= 6; s++) {
+    srsCard.append(U.el("p", "subtle", "Jedes Wort hat sein eigenes Tempo – leichte Wörter wandern schnell nach rechts, schwierige bleiben länger links."));
+    SRS.BANDS.forEach((b, i) => {
       const row = U.el("div", "bar-row");
-      row.innerHTML = "<span class='bar-label'>" + labels[s] + "</span>" +
-        "<span class='bar-track'><span class='bar-fill' style='width:" + Math.round(counts[s] / max * 100) + "%'></span></span>" +
-        "<span class='bar-num'>" + counts[s] + "</span>";
+      row.innerHTML = "<span class='bar-label'>" + b.label + "</span>" +
+        "<span class='bar-track'><span class='bar-fill' style='width:" + Math.round(counts[i] / max * 100) + "%'></span></span>" +
+        "<span class='bar-num'>" + counts[i] + "</span>";
       srsCard.append(row);
-    }
+    });
     view.append(srsCard);
 
     /* Aktivität der letzten 7 Tage */

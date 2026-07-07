@@ -240,7 +240,8 @@ window.Ex = {
     root.append(card);
   },
 
-  /* Karteikarte mit Selbsteinschätzung */
+  /* Karteikarte mit 4-stufiger Selbsteinschätzung (SM-2-Qualitätsskala).
+     done(quality) meldet 1=vergessen, 3=schwer, 4=gut, 5=leicht an SRS.grade(). */
   flash(root, item, done) {
     const card = U.el("div", "card center");
     card.append(U.el("div", "task-title", "Erinnerst du dich?"));
@@ -253,13 +254,18 @@ window.Ex = {
       if (Store.state.settings.showTr) card.append(U.el("div", "word-tr", U.esc(item.tr)));
       card.append(Ex.audioRow(item.ru));
       Speech.say(item.ru);
-      const row = U.el("div", "grade-row");
-      const no = U.el("button", "btn bad-btn", "Wusste ich nicht");
-      const yes = U.el("button", "btn good-btn", "Wusste ich!");
-      no.type = yes.type = "button";
-      no.onclick = () => done(false);
-      yes.onclick = () => done(true);
-      row.append(no, yes);
+      const row = U.el("div", "grade-row four");
+      [
+        ["Vergessen", "bad-btn", SRS.Q.FORGOT],
+        ["Schwer", "hard-btn", SRS.Q.HARD],
+        ["Gut", "mid-btn", SRS.Q.GOOD],
+        ["Leicht", "good-btn", SRS.Q.EASY]
+      ].forEach(([label, cls, q]) => {
+        const b = U.el("button", "btn " + cls, label);
+        b.type = "button";
+        b.onclick = () => done(q);
+        row.append(b);
+      });
       card.append(row);
     };
     card.append(reveal);

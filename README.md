@@ -14,11 +14,16 @@ keine Datenweitergabe – dein Fortschritt bleibt auf deinem Gerät.
   Wort kommt genau einmal vor – siehe **Fahrplan zu 5000 Wörtern** unten.
 - **Kursübersicht nach Niveau gruppiert** (A1/A2/B1/B2) mit Suchfeld, um gezielt
   eine Lektion oder ein Wort zu finden.
-- **Wiederholungs-Manager mit Spaced Repetition** (wie Babbels Review-Manager):
-  6 Stufen mit Intervallen von 1 → 4 → 7 → 14 → 60 → 180 Tagen. Richtig beantwortete
-  Wörter steigen auf, Fehler werfen sie zurück.
+- **Adaptiver Wiederholungs-Manager (SM-2-Prinzip)**: Jedes Wort bekommt einen eigenen
+  Ease-Faktor, der sich an dein persönliches Erinnerungsvermögen anpasst – leichte
+  Wörter wandern schnell auf Monate, schwierige bleiben länger nah dran. Bewertung über
+  4 Qualitätsstufen (Vergessen/Schwer/Gut/Leicht) statt nur richtig/falsch.
 - **5 Übungsarten**: Wortwahl (Multiple Choice), Hören, Schreiben (Buchstaben- und
-  Satzbau-Kacheln), Zuordnen und Karteikarten mit Selbsteinschätzung.
+  Satzbau-Kacheln), Zuordnen und Karteikarten mit 4-stufiger Selbsteinschätzung.
+- **Lesetexte**: 4 kurze Geschichten (A1 → B2), die bewusst nur bereits gelernten
+  Wortschatz nutzen, mit Verständnisfragen – schalten sich automatisch frei, sobald du
+  die passenden Einheiten abgeschlossen hast. Baut echtes Leseverständnis auf, das über
+  Einzelwörter und Dialogzeilen hinausgeht.
 - **Audio für alles** über die russische Systemstimme deines Geräts (Text-to-Speech),
   auf Wunsch in Zeitlupe 🐢.
 - **Grammatik in Häppchen**: 80+ kurze Tipps genau dort, wo sie gebraucht werden –

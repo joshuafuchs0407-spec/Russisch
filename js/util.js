@@ -65,5 +65,15 @@ window.C = {
     return m;
   },
   item(id) { return C.itemMap()[id]; },
-  allItems() { return Object.values(C.itemMap()); }
+  allItems() { return Object.values(C.itemMap()); },
+  /* true, sobald alle Lektionen bis einschliesslich der genannten Einheit erledigt sind */
+  doneThroughUnit(unitId) {
+    const units = C.units();
+    const idx = units.findIndex(u => u.id === unitId);
+    if (idx === -1) return false;
+    for (let i = 0; i <= idx; i++) {
+      if (units[i].lessons.some(l => !Store.isDone(l.id))) return false;
+    }
+    return true;
+  }
 };

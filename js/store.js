@@ -8,6 +8,7 @@ window.Store = {
       srs: {},          // itemId -> { s: Stufe 1-6, due: Timestamp, r: richtig, w: falsch }
       xp: {},           // "YYYY-MM-DD" -> Punkte
       done: {},         // lessonId -> Timestamp der ersten Fertigstellung
+      readingsDone: {},  // readingId -> Timestamp der ersten Fertigstellung
       reviews: 0,       // Anzahl abgeschlossener Wiederholungs-Antworten
       settings: { goal: 30, rate: 1, voice: "", showTr: true }
     };
@@ -55,6 +56,14 @@ window.Store = {
     }
   },
   isDone(lessonId) { return !!Store.state.done[lessonId]; },
+
+  markReadingDone(id) {
+    if (!Store.state.readingsDone[id]) {
+      Store.state.readingsDone[id] = Date.now();
+      Store.save();
+    }
+  },
+  isReadingDone(id) { return !!Store.state.readingsDone[id]; },
 
   exportJson() { return JSON.stringify(Store.state, null, 2); },
   importJson(text) {

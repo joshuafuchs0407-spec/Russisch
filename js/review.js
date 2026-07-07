@@ -47,20 +47,27 @@ window.Review = {
       if (pos >= ids.length) return finish();
       const id = ids[pos++];
       const item = C.item(id);
-      const grade = ok => {
-        SRS.grade(id, ok);
+      /* Übungen mit nur richtig/falsch */
+      const gradeBool = ok => {
+        SRS.gradeBool(id, ok);
         if (ok) { correct++; Store.addXp(2); }
         step();
       };
+      /* Karteikarte meldet die volle 4-stufige Qualität */
+      const gradeQuality = quality => {
+        SRS.grade(id, quality);
+        if (quality >= SRS.Q.GOOD) { correct++; Store.addXp(quality === SRS.Q.EASY ? 3 : 2); }
+        step();
+      };
       const t = taskFor(item);
-      if (t === "mc") Ex.mcDeRu(body, item, pool, grade);
-      else if (t === "listen") Ex.listenDe(body, item, pool, grade);
-      else if (t === "flash") Ex.flash(body, item, grade);
+      if (t === "mc") Ex.mcDeRu(body, item, pool, gradeBool);
+      else if (t === "listen") Ex.listenDe(body, item, pool, gradeBool);
+      else if (t === "flash") Ex.flash(body, item, gradeQuality);
       else if (t === "write") {
-        if (item.ru.split(" ").length >= 3) Ex.order(body, item, grade);
-        else if ([...item.ru].length <= 12) Ex.spell(body, item, grade);
-        else Ex.mcDeRu(body, item, pool, grade);
-      } else Ex.mcDeRu(body, item, pool, grade);
+        if (item.ru.split(" ").length >= 3) Ex.order(body, item, gradeBool);
+        else if ([...item.ru].length <= 12) Ex.spell(body, item, gradeBool);
+        else Ex.mcDeRu(body, item, pool, gradeBool);
+      } else Ex.mcDeRu(body, item, pool, gradeBool);
     }
 
     function finish() {
